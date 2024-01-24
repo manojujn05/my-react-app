@@ -27,12 +27,12 @@ jobs:
     - name: Deploy to EC2
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.ec2-54-152-165-122.compute-1.amazonaws.com }}
-        username: ${{ secrets.ec2-user }}
-        key: ${{ secrets.MIIEpAIBAAKCAQEAxndi3A9IQk1MBkEnY8CHD0NO1lz8ETdEb+EXGEc/b7iBMuBqpr1euAF6xaHXkxykO6JbAu9LBFs0yqCAgMXzVY3GU0KcbzVWNyyW5hSKDWSYey6++tUAhWtt2IWL7Jp0gpKx3Bww09vUpSk3HzO8BDh3QnZJFz7eA32dkrREGnCda0QNwHss3GU4o1JJHLZRB9MtE2oIbZjxf7Mv29DWGLcDvmRrEQsnh//dNqDgqFC+YBVFVYAsL/DyJa/9f0/afwTk0HUzPZIjS5EkYgkap1DcjBgvrFtxl9qRUObXC6RMw2doHxlt635YMCZ2ZnBK/qbzhfGUzA9FdUwOkvQOLQIDAQABAoIBAQCFkQ9dXoOY64CArRSfU5ERupCyP738sB9E1E3AryKIQ7nfzZy5PrUiTQydOUBl5164K5norbbk5aTvwXj6MT6Ek3enzSqOxWySkVW03pnSTaM5M8qf8P36zMQOdkInKAPFZIiCxA4wZsADr2tDeoPMq1vHxOeH121/F+kWNG+pAnXbJttbPhL9y2dKasNA8tZNqGn2HQo6dYIeZV2+puZ9W9YjhkPwPEw2Dl336fxQS8/2RdUd04O0RvtdxFM8z+k9WCJpSKvr8BXwUxvQ+t8RuibwAlnjKBG2ZMTDh5fwEFM/Ff+N5KazOVPFxtkajock0QEoPq+muuOScILiGnjZAoGBAOXHmbslWHmPvecIEeQHP9H0dNgSdtESywkf3iSJ1v4VDEIQzOHCFm8c3dAiH75qHxj1d0a1KPObzH+s5anv6LWeGbCeQpCzw10XyzGqvDqM78sSTiHEvJLAX+qZGB0FWryWVD2cDSyM+cCUiMdTnCQk3Klyg2Gzqk4cgUOHWxCrAoGBAN0dDNoQVlVLnj8OqXPo0QLrxKChHe7i6hD7J9Ko1n1W8ZsDpISF2cZSw30rTbgGQ5FqKmbZN9ubtQIz4npHeHmfzJ3/lysSn86vgz7U7rsjcDCtnQCygDUouTa65K5lGmzsvtm9xghfaWBYcjeIogRO1jkS7qWpdh8k8tWd8syHAoGAZXlGTL1rWxO9m5+Wtwr0hjXcu+c7jY0tGPR3187/oOmOpkZhFHnwClXHJzlKp36aCR2t9Q3f7eUp5GBodCm8rSgK1FKvttOMPTpaw65QvdKruxR0aLlHRc+rDCFb4sUQkyQYQ7T8pGYFjaSK2uvzkoqs4C/wEV+UoDY6Z6YI800CgYBOp7PXqnIbm2+qfLu4uLwJLvdeMJImVV/wNHehD2Bla9U8UFporfie/Pf/gbT+3nOQudRli6W8IDKOmwhYeS4ZDchK+A29S72/V133ruVRerTBDDFKezTyNA9WsbsBcoOo9bqaWFCmz9H7bNsMeDUyFR1NZjewhIy5XXpolOw25wKBgQCmpNNgOomfb4QyUiEBRhAHXaa87LbqrTw9fUPMNE8sxnGRyhriGXkdv0TYLWfN4ieHWw0Jqz2PC/BO2dKo+12fsUdx+FMtVIPlZku8PgYw+wpYcPMTn/kqs9BGaggOWi2FQKgP6peIsQ70zRlmY5nyze8FIGKPnIdGH3MWcWqMRw== }}
-        port: ${{ secrets.22 }}
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
         script: |
-          cd /var/www/html/app
+          cd /var/www/app
           git pull origin main
           npm install
           npm run build
