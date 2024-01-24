@@ -1,0 +1,64 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build React App
+      run: npm run build
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.ec2-54-152-165-122.compute-1.amazonaws.com }}
+        username: ${{ secrets.ec2-user }}
+        key: ${{ secrets.MIIEpAIBAAKCAQEAxndi3A9IQk1MBkEnY8CHD0NO1lz8ETdEb+EXGEc/b7iBMuBq
+pr1euAF6xaHXkxykO6JbAu9LBFs0yqCAgMXzVY3GU0KcbzVWNyyW5hSKDWSYey6+
++tUAhWtt2IWL7Jp0gpKx3Bww09vUpSk3HzO8BDh3QnZJFz7eA32dkrREGnCda0QN
+wHss3GU4o1JJHLZRB9MtE2oIbZjxf7Mv29DWGLcDvmRrEQsnh//dNqDgqFC+YBVF
+VYAsL/DyJa/9f0/afwTk0HUzPZIjS5EkYgkap1DcjBgvrFtxl9qRUObXC6RMw2do
+Hxlt635YMCZ2ZnBK/qbzhfGUzA9FdUwOkvQOLQIDAQABAoIBAQCFkQ9dXoOY64CA
+rRSfU5ERupCyP738sB9E1E3AryKIQ7nfzZy5PrUiTQydOUBl5164K5norbbk5aTv
+wXj6MT6Ek3enzSqOxWySkVW03pnSTaM5M8qf8P36zMQOdkInKAPFZIiCxA4wZsAD
+r2tDeoPMq1vHxOeH121/F+kWNG+pAnXbJttbPhL9y2dKasNA8tZNqGn2HQo6dYIe
+ZV2+puZ9W9YjhkPwPEw2Dl336fxQS8/2RdUd04O0RvtdxFM8z+k9WCJpSKvr8BXw
+UxvQ+t8RuibwAlnjKBG2ZMTDh5fwEFM/Ff+N5KazOVPFxtkajock0QEoPq+muuOS
+cILiGnjZAoGBAOXHmbslWHmPvecIEeQHP9H0dNgSdtESywkf3iSJ1v4VDEIQzOHC
+Fm8c3dAiH75qHxj1d0a1KPObzH+s5anv6LWeGbCeQpCzw10XyzGqvDqM78sSTiHE
+vJLAX+qZGB0FWryWVD2cDSyM+cCUiMdTnCQk3Klyg2Gzqk4cgUOHWxCrAoGBAN0d
+DNoQVlVLnj8OqXPo0QLrxKChHe7i6hD7J9Ko1n1W8ZsDpISF2cZSw30rTbgGQ5Fq
+KmbZN9ubtQIz4npHeHmfzJ3/lysSn86vgz7U7rsjcDCtnQCygDUouTa65K5lGmzs
+vtm9xghfaWBYcjeIogRO1jkS7qWpdh8k8tWd8syHAoGAZXlGTL1rWxO9m5+Wtwr0
+hjXcu+c7jY0tGPR3187/oOmOpkZhFHnwClXHJzlKp36aCR2t9Q3f7eUp5GBodCm8
+rSgK1FKvttOMPTpaw65QvdKruxR0aLlHRc+rDCFb4sUQkyQYQ7T8pGYFjaSK2uvz
+koqs4C/wEV+UoDY6Z6YI800CgYBOp7PXqnIbm2+qfLu4uLwJLvdeMJImVV/wNHeh
+D2Bla9U8UFporfie/Pf/gbT+3nOQudRli6W8IDKOmwhYeS4ZDchK+A29S72/V133
+ruVRerTBDDFKezTyNA9WsbsBcoOo9bqaWFCmz9H7bNsMeDUyFR1NZjewhIy5XXpo
+lOw25wKBgQCmpNNgOomfb4QyUiEBRhAHXaa87LbqrTw9fUPMNE8sxnGRyhriGXkd
+v0TYLWfN4ieHWw0Jqz2PC/BO2dKo+12fsUdx+FMtVIPlZku8PgYw+wpYcPMTn/kq
+s9BGaggOWi2FQKgP6peIsQ70zRlmY5nyze8FIGKPnIdGH3MWcWqMRw== }}
+        port: ${{ secrets.22 }}
+        script: |
+          cd /var/www/html/app
+          git pull origin main
+          npm install
+          npm run build
+          # Add any other deployment steps, e.g., restarting the server
+
