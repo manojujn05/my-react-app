@@ -37,4 +37,7 @@ jobs:
           npm install
           npm run build
           # Add any other deployment steps, e.g., restarting the server
+           npm install -g serve
+            serve -s build
+          
 
