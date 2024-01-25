@@ -31,7 +31,7 @@ jobs:
           npm install -g serve
           serve -s build > serve.log 2>&1 &
 
-          # Print process ID (PID) of the background serve process
+          #Print process ID (PID) of the background serve process
           echo "Serve process ID: $!"
 
           # Add any other deployment steps, e.g., restarting the server
