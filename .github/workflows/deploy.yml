@@ -32,7 +32,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          cd /var/www/html/app
+          cd /var/www/html/app/my-react-app
           git pull origin main
           npm install
           npm run build
