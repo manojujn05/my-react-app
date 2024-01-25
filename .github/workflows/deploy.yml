@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: Deploy to S3
 
 on:
   push:
@@ -10,30 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
 
-    - name: Deploy to EC2
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cd /var/www/html/app/my-react-app
-          git pull origin main
-          npm install -g serve
-          serve -s build > serve.log 2>&1 &
+      - name: Install Dependencies
+        run: npm install
 
-          #Print process ID (PID) of the background serve process
-          echo "Serve process ID: $!"
+      - name: Build React App
+        run: npm run build
 
-          # Add any other deployment steps, e.g., restarting the server
-          # (Make sure to give serve some time to start before running other steps)
-          sleep 5
+      - name: Deploy to S3
+        uses: jakejarvis/s3-sync-action@v0.4.0
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        if: success()
